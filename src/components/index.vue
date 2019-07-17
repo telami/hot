@@ -66,8 +66,8 @@
 
         .cat-wrapper {
             display: flex;
-            flex-direction: row;
             align-items: center;
+            flex-wrap: wrap;
             justify-content: space-between;
             font-size: $hot-font-size-bg;
             margin: 0 50px 15px 50px;
