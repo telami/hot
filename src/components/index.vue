@@ -79,7 +79,6 @@
         }
 
         .info-wrapper {
-            margin-left: 40px;
             text-align: center;
             margin-bottom: 40px;
 
