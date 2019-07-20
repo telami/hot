@@ -9,6 +9,7 @@
                 </div>
             </div>
             <div class="info-wrapper">
+                <skeleton v-if="show"></skeleton>
                 <div class="info" v-for="(info,index) in infos" :key="index">
                     {{index + 1}}. <a :href="info.url" target="_blank">{{info.title}}</a>
                 </div>
@@ -17,13 +18,15 @@
     </div>
 </template>
 <script>
+    import skeleton from './skeleton'
     export default {
         data() {
             return {
                 theme1: 'light',
                 list: [],
                 infos: [],
-                currentId: 1
+                currentId: 1,
+                show:true
             }
         },
         methods: {
@@ -39,7 +42,10 @@
             },
             getInfo(currentId) {
                 fetch("https://www.printf520.com:8080/GetTypeInfo?id=" + currentId).then(response => response.json())
-                    .then(data => this.infos = data.Data)
+                    .then(data => {
+                        this.infos = data.Data
+                        this.show = false
+                    })
             },
             select(id) {
                 this.currentId = id
@@ -49,6 +55,9 @@
         created() {
             this.getAllTypes()
             this.getInfo(this.currentId);
+        },
+        components:{
+            skeleton
         }
     }
 </script>
