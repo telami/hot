@@ -43,11 +43,7 @@
             },
             select(id) {
                 this.currentId = id
-            }
-        },
-        watch: {
-            currentId() {
-                this.getInfo(this.currentId)
+                this.getInfo(id)
             }
         },
         created() {
