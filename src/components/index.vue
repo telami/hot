@@ -99,7 +99,7 @@
 
                 .info {
                     /*text-align: left;*/
-                    padding: 12px 24px;
+                    padding: 12px 12px;
                     font-size: $hot-font-size-sm;
                     border-bottom: 1px solid #e8e8e8;
 
