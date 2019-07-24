@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="skeleton-wrapper">
-            <div class="skeleton" v-for="(item,index) in skeletons" :key="index">
+            <div class="skeleton padding-sm margin-xs" v-for="(item,index) in skeletons" :key="index">
             </div>
         </div>
     </div>
@@ -26,12 +26,12 @@
 </script>
 
 <style lang="scss">
+    @import "../common/main.css";
+
     .container {
         .skeleton-wrapper {
             .skeleton {
                 background-color: #DCDCDC;
-                padding: 12px;
-                margin: 12px;
             }
         }
     }

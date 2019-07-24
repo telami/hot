@@ -1,16 +1,20 @@
 <template>
     <div class="container">
-        <div class="title">互联网热榜</div>
+        <div class="top-wrapper flex justify-between align-center margin-tb-sm">
+            <div class="title cuIcon-light">互联网热榜</div>
+            <a href="https://github.com/telami/hot" class="issue padding-5 cuIcon-github"></a>
+        </div>
         <div class="content">
-            <div class="cat-wrapper">
-                <div class="cat" :class="currentId === item.id ? 'current' : ''" @click="select(item.id)"
+            <div class="cat-wrapper flex flex-wrap justify-around">
+                <div class="cat padding-5 radius" :class="currentId === item.id ? 'current' : ''"
+                     @click="select(item.id)"
                      v-for="(item,index) in list" :key="index">
                     {{item.title}}
                 </div>
             </div>
-            <div class="info-wrapper">
-                <skeleton v-if="show"></skeleton>
-                <div class="info" v-for="(info,index) in infos" :key="index">
+            <div class="info-wrapper shadow bg-white padding-15">
+                <skeleton v-show="show"></skeleton>
+                <div class="info animation-shake padding-sm" v-for="(info,index) in infos" :key="index">
                     {{index + 1}}. <a :href="info.url" target="_blank">{{info.title}}</a>
                 </div>
             </div>
@@ -19,6 +23,7 @@
 </template>
 <script>
     import skeleton from './skeleton'
+
     export default {
         data() {
             return {
@@ -26,17 +31,14 @@
                 list: [],
                 infos: [],
                 currentId: 1,
-                show:true
+                show: true
             }
         },
         methods: {
             getAllTypes() {
                 fetch("https://www.printf520.com:8080/GetType").then(response => response.json())
                     .then(data => {
-                        let cats = data.Data
-                        cats.pop()
-                        cats.pop()
-                        this.list = cats
+                        this.list = this.filterCats(data.Data)
                         this.currentId = this.list[0].id
                     })
             },
@@ -50,13 +52,22 @@
             select(id) {
                 this.currentId = id
                 this.getInfo(id)
+            },
+            filterCats(cats) {
+                let newCats = []
+                for (let cat of cats) {
+                    if (cat.title !== '博客墙' && cat.title !== '反馈建议') {
+                        newCats.push(cat)
+                    }
+                }
+                return newCats;
             }
         },
         created() {
             this.getAllTypes()
             this.getInfo(this.currentId);
         },
-        components:{
+        components: {
             skeleton
         }
     }
@@ -64,37 +75,33 @@
 
 <style lang="scss">
 
+    @import "../common/main.css";
+    @import "../common/icon.css";
+    @import "../common/animation.css";
+
     $hot-font-size-sm: 15px;
     $hot-font-size-bg: 18px;
-    $hot-base-color: #FF6F61;
+    $hot-base-color: #007BFF;
     .container {
-        background-color: #fff;
+        max-width: 960px;
+        margin: 0 auto;
 
-        .title {
-            background-color: #fff;
-            position: fixed;
-            height: 50px;
-            font-size: 20px;
-            line-height: 50px;
-            text-align: center;
-            width: 100%;
-            font-weight: bold;
-            z-index: 30;
+        .top-wrapper {
+            margin-bottom: 20px;
+
+            .issue {
+                text-decoration: none;
+            }
         }
+
         .content {
             max-width: 960px;
             margin: 0 auto;
-            padding-top: 60px;
 
             .cat-wrapper {
-                display: flex;
-                align-items: center;
-                flex-wrap: wrap;
-                justify-content: space-around;
                 font-size: $hot-font-size-sm;
-                margin-bottom: 30px;
-                background-color: transparent;
-                border-color: transparent;
+                margin-bottom: 20px;
+
                 .cat.current {
                     background-color: $hot-base-color;
                     border-radius: 2px;
@@ -104,11 +111,9 @@
 
             .info-wrapper {
                 text-align: left;
-                border: 1px solid #e8e8e8;
+                margin-bottom: 20px;
 
                 .info {
-                    /*text-align: left;*/
-                    padding: 12px 12px;
                     font-size: $hot-font-size-sm;
                     border-bottom: 1px solid #e8e8e8;
 
