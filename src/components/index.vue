@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="top-wrapper flex justify-between align-center margin-tb-sm">
+        <div class="top-wrapper text-xs flex justify-between align-center">
             <div class="title cuIcon-light">互联网热榜</div>
             <a href="https://github.com/telami/hot" class="issue padding-5 cuIcon-github"></a>
         </div>
@@ -13,8 +13,7 @@
                 </div>
             </div>
             <div class="info-wrapper shadow bg-white padding-15">
-                <skeleton v-show="show"></skeleton>
-                <div class="info animation-shake padding-sm" v-for="(info,index) in infos" :key="index">
+                <div class="info animation-shake padding-tb-sm" v-for="(info,index) in infos" :key="index">
                     {{index + 1}}. <a :href="info.url" target="_blank">{{info.title}}</a>
                 </div>
             </div>
@@ -22,7 +21,6 @@
     </div>
 </template>
 <script>
-    import skeleton from './skeleton'
 
     export default {
         data() {
@@ -66,9 +64,6 @@
         created() {
             this.getAllTypes()
             this.getInfo(this.currentId);
-        },
-        components: {
-            skeleton
         }
     }
 </script>
@@ -83,11 +78,11 @@
     $hot-font-size-bg: 18px;
     $hot-base-color: #007BFF;
     .container {
-        max-width: 960px;
-        margin: 0 auto;
 
         .top-wrapper {
-            margin-bottom: 20px;
+            max-width: 950px;
+            margin: 0 auto;
+            height: 60px;
 
             .issue {
                 text-decoration: none;
