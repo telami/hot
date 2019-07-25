@@ -4,6 +4,7 @@
             <div class="title cuIcon-light">互联网热榜</div>
             <a href="https://github.com/telami/hot" class="issue padding-5 cuIcon-github"></a>
         </div>
+        <loading v-show="show"></loading>
         <div class="content">
             <div class="cat-wrapper flex flex-wrap justify-around">
                 <div class="cat padding-5 radius" :class="currentId === item.id ? 'current' : ''"
@@ -12,8 +13,8 @@
                     {{item.title}}
                 </div>
             </div>
-            <div class="info-wrapper shadow bg-white padding-15">
-                <div class="info animation-shake padding-tb-sm" v-for="(info,index) in infos" :key="index">
+            <div class="info-wrapper shadow bg-white">
+                <div class="info animation-shake padding-tb-sm margin-lr-sm" v-for="(info,index) in infos" :key="index">
                     {{index + 1}}. <a :href="info.url" target="_blank">{{info.title}}</a>
                 </div>
             </div>
@@ -22,7 +23,9 @@
 </template>
 <script>
 
+    import Loading from "./loading";
     export default {
+        components: {Loading},
         data() {
             return {
                 theme1: 'light',
@@ -38,13 +41,13 @@
                     .then(data => {
                         this.list = this.filterCats(data.Data)
                         this.currentId = this.list[0].id
+                        this.show = false
                     })
             },
             getInfo(currentId) {
                 fetch("https://www.printf520.com:8080/GetTypeInfo?id=" + currentId).then(response => response.json())
                     .then(data => {
                         this.infos = data.Data
-                        this.show = false
                     })
             },
             select(id) {
