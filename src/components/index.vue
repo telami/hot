@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="top-wrapper text-xs flex justify-between align-center">
-            <div class="title cuIcon-light">互联网热榜</div>
+            <div class="title cuIcon-hotfill">互联网热榜</div>
             <a href="https://github.com/telami/hot" class="issue padding-5 cuIcon-github"></a>
         </div>
         <loading v-show="show"></loading>
