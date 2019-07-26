@@ -18,14 +18,16 @@
                     {{index + 1}}. <a :href="info.url" target="_blank">{{info.title}}</a>
                 </div>
             </div>
+            <vueToTop :type="4" :color="'#007BFF'" :size="40"></vueToTop>
         </div>
     </div>
 </template>
 <script>
 
     import Loading from "./loading";
+    import vueToTop from 'vue-totop'
     export default {
-        components: {Loading},
+        components: {Loading,vueToTop},
         data() {
             return {
                 theme1: 'light',

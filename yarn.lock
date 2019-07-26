@@ -8020,7 +8020,14 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.npm.taobao.org/vue-template-es2015-compiler/download/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha1-HuO8mhbsv1EYvjNLsV+cRvgvWCU=
 
-vue@^2.6.10:
+vue-totop@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/vue-totop/-/vue-totop-1.0.3.tgz#827685d205deb70faf540b795472d2d7718c568f"
+  integrity sha512-rBF9P+jCYTHLZHyH5dM2NmKK0yVFB5GGuplYZcr/MgefKQt3ylmrz975PnCYWap40/pFdZWXo6fhC1PcTLy47g==
+  dependencies:
+    vue "^2.5.11"
+
+vue@^2.5.11, vue@^2.6.10:
   version "2.6.10"
   resolved "https://registry.npm.taobao.org/vue/download/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
   integrity sha1-pysaQqTYKnIepDjRtr9V5mGVxjc=
