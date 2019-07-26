@@ -101,7 +101,9 @@
             .cat-wrapper {
                 font-size: $hot-font-size-sm;
                 margin-bottom: 20px;
-
+                .cat{
+                    cursor:pointer;
+                }
                 .cat.current {
                     background-color: $hot-base-color;
                     border-radius: 2px;
