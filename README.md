@@ -1,35 +1,19 @@
-## 互联网热榜
+<h1 align="center">Welcome to 互联网热榜 👋</h1>
 
-> https://www.telami.cn/hot
+<p>
+  <img alt="Version" src="https://img.shields.io/badge/version-v 1.0.0-blue.svg?cacheSeconds=2592000" />
+</p>
 
-### 💡楔子
+> 关注世界的变化，了解舆论的风向，尽在互联网热榜。
 
-在v2ex摸鱼时，先是发现了api，后面作者也提供了页面
+## 🎨简介
+ 
+取之开源，用之开源
 
-但重复造轮子就是天性啊
+感谢V站同学的API
 
-遂用了个把小时搞了这个
-
-### 🎨简介
-
-纯vue单页应用，部署简单
-
-可引入自己的博客
-
-后续有人用的话，在继续优化ui
-
-hot陆续涨到了50个star，惊喜之余，决定优化一下ui，说到做到嘛
-
-增加了鸣谢,由于最近也在写小程序，一直再用colorUI，所以这边也用上了
-
-后面会开源一个小程序，大家可以先体验一下
-
-![](src/common/省点花.jpg)
-
-### 🙏鸣谢
+## 🥳鸣谢
 
 [printf520](https://www.printf520.com/hot.html)
 
 [ColorUI](https://github.com/weilanwl/ColorUI)
-
-#

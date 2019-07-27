@@ -26,8 +26,9 @@
 
     import Loading from "./loading";
     import vueToTop from 'vue-totop'
+
     export default {
-        components: {Loading,vueToTop},
+        components: {Loading, vueToTop},
         data() {
             return {
                 theme1: 'light',
@@ -101,6 +102,10 @@
             .cat-wrapper {
                 font-size: $hot-font-size-sm;
                 margin-bottom: 20px;
+
+                .cat {
+                    cursor: pointer;
+                }
 
                 .cat.current {
                     background-color: $hot-base-color;
