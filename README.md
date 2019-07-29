@@ -1,19 +1,27 @@
-<h1 align="center">Welcome to 互联网热榜 👋</h1>
-
-<p>
-  <img alt="Version" src="https://img.shields.io/badge/version-v 1.0.0-blue.svg?cacheSeconds=2592000" />
-</p>
+## 互联网热榜
 
 > 关注世界的变化，了解舆论的风向，尽在互联网热榜。
 
-## 🎨简介
- 
-取之开源，用之开源
+![index](https://camo.githubusercontent.com/8f697c48adc5026cc6d83dd45e42b9b93ee1803c/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f636f6e747269627574696f6e732d77656c636f6d652d627269676874677265656e2e737667)![index](https://camo.githubusercontent.com/3ccf4c50a1576b0dd30b286717451fa56b783512/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4c6963656e73652d4d49542d79656c6c6f772e737667)
 
-感谢V站同学的API
+![index](./src/common/zhihu.png)
 
-## 🥳鸣谢
+![index](./src/common/hupu.png)
 
-[printf520](https://www.printf520.com/hot.html)
 
-[ColorUI](https://github.com/weilanwl/ColorUI)
+## 线上地址
+
+* [互联网热榜](https://www.telami.cn/hot/)
+
+
+## 支持 hot
+
+如果你喜欢hot的话, 可以给我点个 ⭐ [GitHub](https://github.com/telami/hot), 或者推荐给朋友一下。
+
+## 感谢
+
+* [printf520](https://www.printf520.com/hot.html): 感谢v友提供的api。
+
+## 协议
+
+[MIT](./LICENSE)
