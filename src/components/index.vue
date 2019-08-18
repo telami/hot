@@ -50,7 +50,7 @@
             getInfo(currentId) {
                 fetch("https://www.printf520.com:8080/GetTypeInfo?id=" + currentId).then(response => response.json())
                     .then(data => {
-                        this.infos = data.Data
+                        this.infos = this.filterTiebaUrl(data.Data)
                     })
             },
             select(id) {
@@ -63,6 +63,14 @@
                     if (cat.title !== '博客墙' && cat.title !== '反馈建议') {
                         newCats.push(cat)
                     }
+                }
+                return newCats;
+            },
+            filterTiebaUrl(infos) {
+                let newCats = []
+                for (let info of infos) {
+                    info.url = info.url.replace("amp;", "");
+                    newCats.push(info)
                 }
                 return newCats;
             }
