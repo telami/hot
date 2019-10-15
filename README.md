@@ -6,8 +6,6 @@
 
 ![index](./src/common/zhihu.png)
 
-![index](./src/common/hupu.png)
-
 
 ## 线上地址
 
