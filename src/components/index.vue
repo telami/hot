@@ -1,9 +1,6 @@
 <template>
     <div class="container">
-        <div class="top-wrapper text-xs flex justify-between align-center">
-            <div class="title cuIcon-hotfill">互联网热榜</div>
-            <a href="https://github.com/telami/hot" class="issue padding-5 cuIcon-github"></a>
-        </div>
+        <h2 class="cuIcon-hotfill text-center">互联网热榜</h2>
         <loading v-show="show"></loading>
         <div class="content">
             <div class="cat-wrapper flex flex-wrap justify-around">
@@ -20,66 +17,83 @@
             </div>
             <vueToTop :type="4" :color="'#007BFF'" :size="40"></vueToTop>
         </div>
+        <a href="https://github.com/telami/hot/issues" class="cuIcon-edit edit"></a>
     </div>
 </template>
 <script>
 
-    import Loading from "./loading";
-    import vueToTop from 'vue-totop'
+  import Loading from "./loading";
+  import vueToTop from 'vue-totop'
 
-    export default {
-        components: {Loading, vueToTop},
-        data() {
-            return {
-                theme1: 'light',
-                list: [],
-                infos: [],
-                currentId: 1,
-                show: true
-            }
-        },
-        methods: {
-            getAllTypes() {
-                fetch("https://www.printf520.com:8080/GetType").then(response => response.json())
-                    .then(data => {
-                        this.list = this.filterCats(data.Data)
-                        this.currentId = this.list[0].id
-                        this.show = false
-                    })
-            },
-            getInfo(currentId) {
-                fetch("https://www.printf520.com:8080/GetTypeInfo?id=" + currentId).then(response => response.json())
-                    .then(data => {
-                        this.infos = this.filterTiebaUrl(data.Data)
-                    })
-            },
-            select(id) {
-                this.currentId = id
-                this.getInfo(id)
-            },
-            filterCats(cats) {
-                let newCats = []
-                for (let cat of cats) {
-                    if (cat.title !== '博客墙' && cat.title !== '反馈建议') {
-                        newCats.push(cat)
-                    }
-                }
-                return newCats;
-            },
-            filterTiebaUrl(infos) {
-                let newCats = []
-                for (let info of infos) {
-                    info.url = info.url.replace("amp;", "");
-                    newCats.push(info)
-                }
-                return newCats;
-            }
-        },
-        created() {
-            this.getAllTypes()
-            this.getInfo(this.currentId);
+  export default {
+    components: {Loading, vueToTop},
+    data() {
+      return {
+        theme1: 'light',
+        list: [],
+        infos: [],
+        currentId: 1,
+        show: true
+      }
+    },
+    methods: {
+      getAllTypes() {
+        fetch("https://www.printf520.com:8080/GetType").then(response => response.json())
+          .then(data => {
+            this.list = this.filterCats(data.Data).slice(0, 30)
+            console.log(this.list)
+            this.currentId = this.list[0].id
+            this.show = false
+          })
+      },
+      getInfo(currentId) {
+        fetch("https://www.printf520.com:8080/GetTypeInfo?id=" + currentId).then(response => response.json())
+          .then(data => {
+            this.infos = this.filterTiebaUrl(data.Data)
+          })
+      },
+      select(id) {
+        this.currentId = id
+        this.getInfo(id)
+      },
+      filterCats(cats) {
+        let newCats = []
+        for (let cat of cats) {
+          if (cat.title !== '博客墙' && cat.title !== '反馈建议') {
+            newCats.push(cat)
+          }
         }
+        return newCats.sort(this.compare);
+      },
+      filterTiebaUrl(infos) {
+        let newCats = []
+        for (let info of infos) {
+          info.url = info.url.replace("amp;", "");
+          newCats.push(info)
+        }
+        return newCats;
+      },
+      compare(o1, o2) {
+        var val1 = o1.sort;
+        var val2 = o2.sort;
+        if (!isNaN(Number(val1)) && !isNaN(Number(val2))) {
+          val1 = Number(val1);
+          val2 = Number(val2);
+        }
+        if (val1 > val2) {
+          return -1;
+        } else if (val1 < val2) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }
+    },
+    created() {
+      this.getAllTypes()
+      this.getInfo(this.currentId);
     }
+  }
 </script>
 
 <style lang="scss">
@@ -92,16 +106,6 @@
     $hot-font-size-bg: 18px;
     $hot-base-color: #007BFF;
     .container {
-
-        .top-wrapper {
-            max-width: 950px;
-            margin: 0 auto;
-            height: 60px;
-
-            .issue {
-                text-decoration: none;
-            }
-        }
 
         .content {
             max-width: 960px;
@@ -157,5 +161,11 @@
             }
         }
 
+        .edit{
+            position: fixed;
+            bottom:30px;
+            right:20%;
+            text-decoration: none;
+        }
     }
 </style>

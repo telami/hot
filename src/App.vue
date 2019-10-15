@@ -18,9 +18,10 @@
 
 <style lang="scss">
     body {
-        background-color: #f1f1f1;
+        background-image: url(assets/bg.png);
+        /*background-color: #d2f0f4;*/
         font-size: 28px;
-        color: #333333;
+        /*color: #333333;*/
         font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
     }
 </style>

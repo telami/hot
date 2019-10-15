@@ -55,6 +55,7 @@
 
 .cuIcon-edit:before {
 	content: "\e649";
+	color: #007BFF;
 }
 
 .cuIcon-emoji:before {
@@ -1115,6 +1116,7 @@
 
 .cuIcon-exit:before {
 	content: "\e7cb";
+
 }
 
 .cuIcon-skinfill:before {
