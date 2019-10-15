@@ -1,15 +1,17 @@
 <template>
     <div class="container">
-        <h2 class="cuIcon-hotfill text-center">互联网热榜</h2>
+        <h3 class="cuIcon-hotfill text-center">互联网热榜</h3>
         <loading v-show="show"></loading>
         <div class="content">
-            <div class="cat-wrapper flex flex-wrap justify-around">
-                <div class="cat padding-5 radius" :class="currentId === item.id ? 'current' : ''"
+            <button class="hide" @click="collapse">{{isCollapse ? '展开' : '收起'}}</button>
+            <div ref="cat" class="cat-wrapper flex flex-wrap justify-around">
+                <div class="cat padding-xs radius" :class="currentId === item.id ? 'current' : ''"
                      @click="select(item.id)"
                      v-for="(item,index) in list" :key="index">
                     {{item.title}}
                 </div>
             </div>
+
             <div class="info-wrapper shadow bg-white">
                 <div class="info animation-shake padding-tb-sm margin-lr-sm" v-for="(info,index) in infos" :key="index">
                     {{index + 1}}. <a :href="info.url" target="_blank">{{info.title}}</a>
@@ -22,78 +24,86 @@
 </template>
 <script>
 
-  import Loading from "./loading";
-  import vueToTop from 'vue-totop'
+    import Loading from "./loading";
+    import vueToTop from 'vue-totop'
 
-  export default {
-    components: {Loading, vueToTop},
-    data() {
-      return {
-        theme1: 'light',
-        list: [],
-        infos: [],
-        currentId: 1,
-        show: true
-      }
-    },
-    methods: {
-      getAllTypes() {
-        fetch("https://www.printf520.com:8080/GetType").then(response => response.json())
-          .then(data => {
-            this.list = this.filterCats(data.Data).slice(0, 30)
-            console.log(this.list)
-            this.currentId = this.list[0].id
-            this.show = false
-          })
-      },
-      getInfo(currentId) {
-        fetch("https://www.printf520.com:8080/GetTypeInfo?id=" + currentId).then(response => response.json())
-          .then(data => {
-            this.infos = this.filterTiebaUrl(data.Data)
-          })
-      },
-      select(id) {
-        this.currentId = id
-        this.getInfo(id)
-      },
-      filterCats(cats) {
-        let newCats = []
-        for (let cat of cats) {
-          if (cat.title !== '博客墙' && cat.title !== '反馈建议') {
-            newCats.push(cat)
-          }
+    export default {
+        components: {Loading, vueToTop},
+        data() {
+            return {
+                theme1: 'light',
+                list: [],
+                infos: [],
+                currentId: 1,
+                show: true,
+                isCollapse: true
+            }
+        },
+        methods: {
+            getAllTypes() {
+                fetch("https://www.printf520.com:8080/GetType").then(response => response.json())
+                    .then(data => {
+                        this.list = this.filterCats(data.Data);
+                        this.currentId = this.list[0].id
+                        this.show = false
+                    })
+            },
+            getInfo(currentId) {
+                fetch("https://www.printf520.com:8080/GetTypeInfo?id=" + currentId).then(response => response.json())
+                    .then(data => {
+                        this.infos = this.filterTiebaUrl(data.Data)
+                    })
+            },
+            select(id) {
+                this.currentId = id
+                this.getInfo(id)
+            },
+            filterCats(cats) {
+                let newCats = []
+                for (let cat of cats) {
+                    if (cat.title !== '博客墙' && cat.title !== '反馈建议' && cat.title !== '汇总热榜') {
+                        newCats.push(cat)
+                    }
+                }
+                return newCats.sort(this.compare);
+            },
+            filterTiebaUrl(infos) {
+                let newCats = []
+                for (let info of infos) {
+                    info.url = info.url.replace("amp;", "");
+                    newCats.push(info)
+                }
+                return newCats;
+            },
+            collapse() {
+                this.isCollapse = !this.isCollapse
+                if (this.isCollapse) {
+                    this.$refs.cat.style.height = '45px'
+                } else {
+                    this.$refs.cat.style.height = 'auto'
+                }
+            },
+            compare(o1, o2) {
+                var val1 = o1.sort;
+                var val2 = o2.sort;
+                if (!isNaN(Number(val1)) && !isNaN(Number(val2))) {
+                    val1 = Number(val1);
+                    val2 = Number(val2);
+                }
+                if (val1 > val2) {
+                    return -1;
+                } else if (val1 < val2) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        },
+        created() {
+            this.getAllTypes()
+            this.getInfo(this.currentId);
         }
-        return newCats.sort(this.compare);
-      },
-      filterTiebaUrl(infos) {
-        let newCats = []
-        for (let info of infos) {
-          info.url = info.url.replace("amp;", "");
-          newCats.push(info)
-        }
-        return newCats;
-      },
-      compare(o1, o2) {
-        var val1 = o1.sort;
-        var val2 = o2.sort;
-        if (!isNaN(Number(val1)) && !isNaN(Number(val2))) {
-          val1 = Number(val1);
-          val2 = Number(val2);
-        }
-        if (val1 > val2) {
-          return -1;
-        } else if (val1 < val2) {
-          return 1;
-        } else {
-          return 0;
-        }
-      }
-    },
-    created() {
-      this.getAllTypes()
-      this.getInfo(this.currentId);
     }
-  }
 </script>
 
 <style lang="scss">
@@ -111,9 +121,17 @@
             max-width: 960px;
             margin: 0 auto;
 
+            .hide{
+                font-size: $hot-font-size-sm;
+                position: absolute;
+                top: 55px;
+            }
+
             .cat-wrapper {
                 font-size: $hot-font-size-sm;
                 margin-bottom: 20px;
+                height: 45px;
+                overflow: hidden;
 
                 .cat {
                     cursor: pointer;
@@ -161,10 +179,10 @@
             }
         }
 
-        .edit{
+        .edit {
             position: fixed;
-            bottom:30px;
-            right:20%;
+            bottom: 30px;
+            right: 20%;
             text-decoration: none;
         }
     }
