@@ -41,7 +41,7 @@
         },
         methods: {
             getAllTypes() {
-                fetch("https://www.printf520.com:8080/GetType").then(response => response.json())
+                fetch("https://www.tophub.fun:8080/GetType").then(response => response.json())
                     .then(data => {
                         this.list = this.filterCats(data.Data);
                         this.currentId = this.list[0].id
@@ -49,7 +49,7 @@
                     })
             },
             getInfo(currentId) {
-                fetch("https://www.printf520.com:8080/GetTypeInfo?id=" + currentId).then(response => response.json())
+                fetch("https://www.tophub.fun:8080/GetTypeInfo?id=" + currentId).then(response => response.json())
                     .then(data => {
                         this.infos = this.filterTiebaUrl(data.Data)
                     })
