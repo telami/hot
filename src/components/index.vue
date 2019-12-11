@@ -4,7 +4,7 @@
     <div class="content">
       <button class="hide" @click="collapse">{{isCollapse ? '展开' : '收起'}}</button>
       <div ref="cat" class="cat-wrapper flex flex-wrap justify-around">
-        <div class="cat padding-xs radius" :class="currentId === item.id ? 'current' : ''"
+        <div class="cat padding-lr-xs padding-tb-xs radius" :class="currentId === item.id ? 'current' : ''"
              @click="select(item.id)"
              v-for="(item,index) in list" :key="index">
           {{item.title}}
@@ -49,22 +49,23 @@
     methods: {
       getAllTypes() {
         fetch("https://www.tophub.fun:8080/GetType").then(response => response.json())
-          .then(data => {
-            this.list = this.filterCats(data.Data);
-            this.currentId = this.list[0].id
-          })
+            .then(data => {
+              this.list = this.filterCats(data.Data);
+              this.currentId = this.list[0].id
+            })
       },
       getInfo(currentId) {
         this.show = true
         fetch("https://www.tophub.fun:8888/GetAllInfoGzip?id=" + currentId).then(response => response.json())
-          .then(data => {
-            this.infos = this.filterTiebaUrl(data.Data)
-            this.show = false
-          })
+            .then(data => {
+              this.infos = this.filterTiebaUrl(data.Data)
+              this.show = false
+            })
       },
       select(id) {
         this.currentId = id
         this.getInfo(id)
+        this.isCollapse = true
       },
       filterCats(cats) {
         let newCats = []
@@ -84,12 +85,9 @@
         return newCats;
       },
       collapse() {
+        //默认收起
+        // 展开or收起
         this.isCollapse = !this.isCollapse
-        if (this.isCollapse) {
-          this.$refs.cat.style.height = '45px'
-        } else {
-          this.$refs.cat.style.height = 'auto'
-        }
       },
       compare(o1, o2) {
         var val1 = o1.sort;
@@ -104,6 +102,15 @@
           return 1;
         } else {
           return 0;
+        }
+      }
+    },
+    watch: {
+      isCollapse(val) {
+        if (val) {
+          this.$refs.cat.style.height = '60px'
+        } else {
+          this.$refs.cat.style.height = 'auto'
         }
       }
     },
@@ -137,8 +144,8 @@
 
       .cat-wrapper {
         font-size: $hot-font-size-sm;
-        margin-bottom: 20px;
-        height: 45px;
+        margin-bottom: 10px;
+        height: 60px;
         overflow: hidden;
 
         .cat {
