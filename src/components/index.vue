@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <h3 class="cuIcon-hotfill text-center">互联网热榜</h3>
-    <loading v-show="show"></loading>
     <div class="content">
       <button class="hide" @click="collapse">{{isCollapse ? '展开' : '收起'}}</button>
       <div ref="cat" class="cat-wrapper flex flex-wrap justify-around">
@@ -11,7 +10,7 @@
           {{item.title}}
         </div>
       </div>
-
+      <loading v-show="show"></loading>
       <div class="info-wrapper shadow bg-white">
         <div class="info padding-tb-sm margin-lr-sm" v-for="(info,index) in infos" :key="index">
           <div class="text-xs text-bold">
@@ -43,7 +42,7 @@
         list: [],
         infos: [],
         currentId: 1,
-        show: true,
+        show: false,
         isCollapse: true
       }
     },
@@ -53,13 +52,14 @@
           .then(data => {
             this.list = this.filterCats(data.Data);
             this.currentId = this.list[0].id
-            this.show = false
           })
       },
       getInfo(currentId) {
+        this.show = true
         fetch("https://www.tophub.fun:8888/GetAllInfoGzip?id=" + currentId).then(response => response.json())
           .then(data => {
             this.infos = this.filterTiebaUrl(data.Data)
+            this.show = false
           })
       },
       select(id) {
