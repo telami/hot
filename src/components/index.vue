@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h4 class="cuIcon-hotfill text-center">互 联 网 热 榜</h4>
+    <h1 class="cuIcon-hotfill text-center">互 联 网 热 榜</h1>
     <div class="content">
       <div class="content-sticky">
         <div ref="catWrapper" class="cat-wrapper">
@@ -14,9 +14,18 @@
             </div>
           </div>
         </div>
-        <!--        <div class="collapse cuIcon-add"></div>-->
+        <div class="collapse" :class="isCollapse ? 'cuIcon-fold' : 'cuIcon-unfold'" @click="collapse()"></div>
+        <div class="all-title-wrapper flex flex-wrap justify-between" v-show="isCollapse">
+          <div class="all-title padding-5 margin-lr-xs margin-tb-5 radius"
+               :class="currentId === item.id ? 'current' : ''"
+               @click="select(index,item.id)"
+               ref="title"
+               v-for="(item,index) in list" :key="index">
+            {{item.title}}
+          </div>
+        </div>
       </div>
-      <!--      <loading v-show="show"></loading>-->
+      <loading v-show="show"/>
       <div class="info-wrapper shadow bg-white">
         <div class="info padding-tb-sm margin-lr-sm" v-for="(info,index) in infos" :key="index">
           <div class="text-xs text-bold">
@@ -49,27 +58,28 @@
         list: [],
         infos: [],
         currentId: 1,
-        show: false
+        show: false,
+        isCollapse: false
       }
     },
     methods: {
       getAllTypes() {
         fetch("https://www.tophub.fun:8080/GetType").then(response => response.json())
-          .then(data => {
-            this.list = this.filterCats(data.Data);
-            this.currentId = this.list[0].id
-            this.$nextTick(() => {
-              this.initCategory();
-            });
-          })
+            .then(data => {
+              this.list = this.filterCats(data.Data);
+              this.currentId = this.list[0].id
+              this.$nextTick(() => {
+                this.initCategory();
+              });
+            })
       },
       getInfo(currentId) {
         this.show = true
         fetch("https://www.tophub.fun:8888/GetAllInfoGzip?id=" + currentId).then(response => response.json())
-          .then(data => {
-            this.infos = this.filterTiebaUrl(data.Data)
-            this.show = false
-          })
+            .then(data => {
+              this.infos = this.filterTiebaUrl(data.Data)
+              this.show = false
+            })
       },
       select(index, id) {
         this.infos = []
@@ -77,6 +87,7 @@
         this.getInfo(id)
         let el = this.$refs.title[index];
         this.scroll.scrollToElement(el, 500, true);
+        this.isCollapse = false
       },
       filterCats(cats) {
         let newCats = []
@@ -100,6 +111,9 @@
           scrollX: true,
           click: true
         });
+      },
+      collapse() {
+        this.isCollapse = !this.isCollapse
       },
       compare(o1, o2) {
         var val1 = o1.sort;
@@ -143,15 +157,14 @@
         position: -webkit-sticky;
         position: sticky;
         top: 0;
+        margin-bottom: 10px;
 
         .cat-wrapper {
           font-size: $hot-font-size-sm;
-          margin-bottom: 10px;
           overflow: hidden;
           white-space: nowrap;
 
           .cat-content {
-            /*background-color: white;*/
             /*padding: 5px;*/
             display: inline-block;
 
@@ -169,6 +182,39 @@
             }
           }
 
+        }
+
+        .collapse {
+          position: absolute;
+          padding: 0 4px;
+          background: rgba(207, 217, 224, 0.8);
+          color: #363636;
+          right: 0;
+          top: 0;
+          /*height: 51px;*/
+          line-height: 32px;
+          font-size: 20px;
+          cursor: pointer;
+        }
+      }
+
+      .all-title-wrapper {
+        font-size: $hot-font-size-sm;
+        background-color: white;
+        margin-top: 10px;
+
+        .all-title {
+          border: 1px solid grey;
+          cursor: pointer;
+          display: inline-block;
+          /*background-color: gray;*/
+          /*color: #fff;*/
+        }
+
+        .all-title.current {
+          background-color: $hot-base-color;
+          border-radius: 5px;
+          color: #fff;
         }
       }
 

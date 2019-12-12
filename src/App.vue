@@ -18,6 +18,7 @@
 
 <style lang="scss">
     body {
+        margin: 0;
         /*background-image: url(assets/bg.png);*/
         /*background-color: rgb(246,246,246);*/
         font-size: 28px;

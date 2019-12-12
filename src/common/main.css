@@ -671,6 +671,10 @@ radio.white.checked .uni-radio-input {
 	flex: 3;
 }
 
+.flex-direction-row {
+	flex-direction: row;
+}
+
 .flex-direction {
 	flex-direction: column;
 }
@@ -701,10 +705,6 @@ radio.white.checked .uni-radio-input {
 
 .self-start {
 	align-self: flex-start;
-}
-
-.self-center {
-	align-self: flex-center;
 }
 
 .self-end {
@@ -743,6 +743,10 @@ radio.white.checked .uni-radio-input {
 
 .margin-0 {
 	margin: 0;
+}
+
+.margin-5 {
+	margin: 5px;
 }
 
 .margin-xs {
@@ -876,6 +880,11 @@ radio.white.checked .uni-radio-input {
 .margin-lr-xl {
 	margin-left: 50px;
 	margin-right: 50px;
+}
+
+.margin-tb-5 {
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 
 .margin-tb-xs {
