@@ -1,16 +1,22 @@
 <template>
   <div class="container">
-    <h3 class="cuIcon-hotfill text-center">互联网热榜</h3>
+    <h4 class="cuIcon-hotfill text-center">互 联 网 热 榜</h4>
     <div class="content">
-      <button class="hide" @click="collapse">{{isCollapse ? '展开' : '收起'}}</button>
-      <div ref="cat" class="cat-wrapper flex flex-wrap justify-around">
-        <div class="cat padding-lr-xs padding-tb-xs radius" :class="currentId === item.id ? 'current' : ''"
-             @click="select(item.id)"
-             v-for="(item,index) in list" :key="index">
-          {{item.title}}
+      <div class="content-sticky">
+        <div ref="catWrapper" class="cat-wrapper">
+          <div class="cat-content">
+            <div class="cat margin-lr-xs padding-lr-xs padding-tb-xs radius"
+                 :class="currentId === item.id ? 'current' : ''"
+                 @click="select(index,item.id)"
+                 ref="title"
+                 v-for="(item,index) in list" :key="index">
+              {{item.title}}
+            </div>
+          </div>
         </div>
+        <!--        <div class="collapse cuIcon-add"></div>-->
       </div>
-      <loading v-show="show"></loading>
+      <!--      <loading v-show="show"></loading>-->
       <div class="info-wrapper shadow bg-white">
         <div class="info padding-tb-sm margin-lr-sm" v-for="(info,index) in infos" :key="index">
           <div class="text-xs text-bold">
@@ -33,6 +39,7 @@
 
   import Loading from "./loading";
   import vueToTop from 'vue-totop'
+  import BScroll from '@better-scroll/core'
 
   export default {
     components: {Loading, vueToTop},
@@ -42,30 +49,34 @@
         list: [],
         infos: [],
         currentId: 1,
-        show: false,
-        isCollapse: true
+        show: false
       }
     },
     methods: {
       getAllTypes() {
         fetch("https://www.tophub.fun:8080/GetType").then(response => response.json())
-            .then(data => {
-              this.list = this.filterCats(data.Data);
-              this.currentId = this.list[0].id
-            })
+          .then(data => {
+            this.list = this.filterCats(data.Data);
+            this.currentId = this.list[0].id
+            this.$nextTick(() => {
+              this.initCategory();
+            });
+          })
       },
       getInfo(currentId) {
         this.show = true
         fetch("https://www.tophub.fun:8888/GetAllInfoGzip?id=" + currentId).then(response => response.json())
-            .then(data => {
-              this.infos = this.filterTiebaUrl(data.Data)
-              this.show = false
-            })
+          .then(data => {
+            this.infos = this.filterTiebaUrl(data.Data)
+            this.show = false
+          })
       },
-      select(id) {
+      select(index, id) {
+        this.infos = []
         this.currentId = id
         this.getInfo(id)
-        this.isCollapse = true
+        let el = this.$refs.title[index];
+        this.scroll.scrollToElement(el, 500, true);
       },
       filterCats(cats) {
         let newCats = []
@@ -84,10 +95,11 @@
         }
         return newCats;
       },
-      collapse() {
-        //默认收起
-        // 展开or收起
-        this.isCollapse = !this.isCollapse
+      initCategory() {
+        this.scroll = new BScroll('.cat-wrapper', {
+          scrollX: true,
+          click: true
+        });
       },
       compare(o1, o2) {
         var val1 = o1.sort;
@@ -103,16 +115,7 @@
         } else {
           return 0;
         }
-      }
-    },
-    watch: {
-      isCollapse(val) {
-        if (val) {
-          this.$refs.cat.style.height = '60px'
-        } else {
-          this.$refs.cat.style.height = 'auto'
-        }
-      }
+      },
     },
     created() {
       this.getAllTypes()
@@ -136,26 +139,36 @@
       max-width: 960px;
       margin: 0 auto;
 
-      .hide {
-        font-size: $hot-font-size-sm;
-        position: absolute;
-        top: 55px;
-      }
+      .content-sticky {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
 
-      .cat-wrapper {
-        font-size: $hot-font-size-sm;
-        margin-bottom: 10px;
-        height: 60px;
-        overflow: hidden;
+        .cat-wrapper {
+          font-size: $hot-font-size-sm;
+          margin-bottom: 10px;
+          overflow: hidden;
+          white-space: nowrap;
 
-        .cat {
-          cursor: pointer;
-        }
+          .cat-content {
+            /*background-color: white;*/
+            /*padding: 5px;*/
+            display: inline-block;
 
-        .cat.current {
-          background-color: $hot-base-color;
-          border-radius: 2px;
-          color: #fff;
+            .cat {
+              cursor: pointer;
+              display: inline-block;
+              background-color: gray;
+              color: #fff;
+            }
+
+            .cat.current {
+              background-color: $hot-base-color;
+              border-radius: 5px;
+              color: #fff;
+            }
+          }
+
         }
       }
 

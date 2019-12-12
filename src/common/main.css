@@ -23,7 +23,7 @@ image {
 }
 
 .radius {
-	border-radius: 6px;
+	border-radius: 5px;
 }
 
 /* ==================
@@ -673,6 +673,10 @@ radio.white.checked .uni-radio-input {
 
 .flex-direction {
 	flex-direction: column;
+}
+
+.flex-nowrap {
+	flex-wrap: nowrap;
 }
 
 .flex-wrap {
