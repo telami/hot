@@ -26,7 +26,7 @@
         </div>
       </div>
       <loading v-show="show"/>
-      <div class="info-wrapper shadow bg-white">
+      <div v-if="infos" class="info-wrapper shadow bg-white">
         <div class="info padding-tb-sm margin-lr-sm" v-for="(info,index) in infos" :key="index">
           <div class="text-xs text-bold">
             <a :href="info.Url" target="_blank">{{info.Title}}</a>
@@ -37,6 +37,9 @@
           <div class="text-center padding-top-xs" v-if="info.Url.includes('n.sinaimg.cn')">
             <img :src="info.Url">
           </div>
+        </div>
+        <div v-show="noMessage" class="no-message shadow bg-white text-18 flex align-center justify-center">
+          暂无新的消息哦,去看看别的吧~
         </div>
       </div>
       <vueToTop :type="4" :color="'#007BFF'" :size="40"></vueToTop>
@@ -59,27 +62,33 @@
         infos: [],
         currentId: 1,
         show: false,
-        isCollapse: false
+        isCollapse: false,
+        noMessage: false
       }
     },
     methods: {
       getAllTypes() {
         fetch("https://www.tophub.fun:8080/GetType").then(response => response.json())
-            .then(data => {
-              this.list = this.filterCats(data.Data);
-              this.currentId = this.list[0].id
-              this.$nextTick(() => {
-                this.initCategory();
-              });
-            })
+          .then(data => {
+            this.list = this.filterCats(data.Data);
+            this.currentId = this.list[0].id
+            this.$nextTick(() => {
+              this.initCategory();
+            });
+          })
       },
       getInfo(currentId) {
         this.show = true
+        this.noMessage = false;
         fetch("https://www.tophub.fun:8888/GetAllInfoGzip?id=" + currentId).then(response => response.json())
-            .then(data => {
-              this.infos = this.filterTiebaUrl(data.Data)
-              this.show = false
-            })
+          .then(data => {
+            if (data.Data === undefined || data.Data.length === 0) {
+              console.log("no message")
+              this.noMessage = true;
+            }
+            this.infos = this.filterTiebaUrl(data.Data)
+            this.show = false
+          })
       },
       select(index, id) {
         this.infos = []
@@ -257,6 +266,10 @@
           a:active {
             color: #8B0000;
           }
+        }
+
+        .no-message {
+          height: 500px;
         }
       }
     }
