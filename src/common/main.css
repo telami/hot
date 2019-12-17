@@ -1520,6 +1520,10 @@ radio.white.checked .uni-radio-input {
           文本
  ==================== */
 
+.text-14 {
+    font-size: 14px;
+}
+
 .text-xs {
 	font-size: 16px;
 }

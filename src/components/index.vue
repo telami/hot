@@ -28,10 +28,10 @@
       <loading v-show="show"/>
       <div v-if="infos" class="info-wrapper shadow bg-white">
         <div class="info padding-tb-sm margin-lr-sm" v-for="(info,index) in infos" :key="index">
-          <div class="text-xs text-bold">
+          <div class="text-xs">
             <a :href="info.Url" target="_blank">{{info.Title}}</a>
           </div>
-          <div v-if="info.Desc" class="desc padding-top-xs">
+          <div v-if="info.Desc" class="desc text-14 padding-top-xs">
             {{info.Desc}}
           </div>
           <div class="text-center padding-top-xs" v-if="info.Url.includes('n.sinaimg.cn')">
