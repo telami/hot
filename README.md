@@ -9,7 +9,7 @@
 
 ## 线上地址
 
-* [互联网热榜](https://www.telami.cn/hot/)
+* [互联网热榜](https://hot.telami.cn/)
 
 
 ## 支持 hot
