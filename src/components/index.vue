@@ -10,7 +10,7 @@
                  @click="select(index,item.id)"
                  ref="title"
                  v-for="(item,index) in list" :key="index">
-              {{item.title}}
+              {{item.name}}
             </div>
           </div>
         </div>
@@ -21,7 +21,7 @@
                @click="select(index,item.id)"
                ref="title"
                v-for="(item,index) in list" :key="index">
-            {{item.title}}
+            {{item.name}}
           </div>
         </div>
       </div>
@@ -68,9 +68,9 @@
     },
     methods: {
       getAllTypes() {
-        fetch("https://www.tophub.fun:8080/GetType").then(response => response.json())
+        fetch("https://www.tophub.fun:8888/GetAllType").then(response => response.json())
           .then(data => {
-            this.list = this.filterCats(data.Data);
+            this.list = this.filterCats(data.Data.全部);
             this.currentId = this.list[0].id
             this.$nextTick(() => {
               this.initCategory();
