@@ -20,6 +20,8 @@
 
 * [printf520](https://www.printf520.com/hot.html): 感谢v友提供的api。
 
+* [![感谢idea](src/common/jetbrains.png "感谢idea")](https://www.jetbrains.com/?from=hot)
+
 ## 协议
 
 [MIT](./LICENSE)
